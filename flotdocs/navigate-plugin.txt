@@ -1,0 +1,51 @@
+Flot plugin for adding panning and zooming capabilities to a plot.
+
+The default behaviour is double click to zoom in, drag to pan. The
+plugin defines plot.zoom({ center }), plot.zoomOut() and
+plot.pan(offset) so you easily can add custom controls. It also fires
+a "plotpan" and "plotzoom" event when something happens, useful for
+synchronizing plots.
+
+Example usage:
+
+  plot = $.plot(...);
+  
+  // zoom default amount in on the pixel (100, 200) 
+  plot.zoom({ center: { left: 10, top: 20 } });
+
+  // zoom out again
+  plot.zoomOut();
+
+  // pan 100 pixels to the left and 20 down
+  plot.pan({ left: -100, top: 20 })
+
+
+Options:
+
+  zoom: {
+    interactive: false
+    trigger: "dblclick" // or "click" for single click
+    amount: 1.5         // 2 = 200% (zoom in), 0.5 = 50% (zoom out)
+  }
+  
+  pan: {
+    interactive: false
+  }
+
+  xaxis, yaxis, x2axis, y2axis: {
+    zoomRange: null  // or [number, number] (min range, max range)
+    panRange: null   // or [number, number] (min, max)
+  }
+  
+"interactive" enables the built-in drag/click behaviour. "amount" is
+the amount to zoom the viewport relative to the current range, so 1 is
+100% (i.e. no change), 1.5 is 150% (zoom in), 0.7 is 70% (zoom out).
+
+"zoomRange" is the interval in which zooming can happen, e.g. with
+zoomRange: [1, 100] the zoom will never scale the axis so that the
+difference between min and max is smaller than 1 or larger than 100.
+You can set either of them to null to ignore.
+
+"panRange" confines the panning to stay within a range, e.g. with
+panRange: [-10, 20] panning stops at -10 in one end and at 20 in the
+other. Either can be null.
